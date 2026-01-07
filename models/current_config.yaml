@@ -1,0 +1,12 @@
+games:
+  Example:
+    name: Example
+    path: C:\_____\_CODE\enro\games\Example
+    target_language:
+      code: ro
+      name: Romanian
+    source_language: english
+    model: aya23
+    context_before: 3
+    context_after: 1
+current_game: Example

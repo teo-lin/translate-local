@@ -1,0 +1,98 @@
+# Custom Variables Example
+#
+# Demonstrates translation with custom variable placeholders.
+# Variables like {name} and {{value}} are preserved during translation.
+
+metadata:
+  source_language: en
+  target_languages:
+    - ro
+    - es
+  tag_format: custom_braces
+  created_at: '2026-01-05T19:00:00'
+  updated_at: '2026-01-05T19:00:00'
+
+blocks:
+  # Single brace variables
+  var-greeting:
+    source_text: 'Hello, {username}! Welcome back.'
+    translations:
+      ro: ''
+      es: ''
+    category: ui
+    context: 'User greeting message'
+
+  var-notification:
+    source_text: 'You have {count} new messages from {sender}.'
+    translations:
+      ro: ''
+      es: ''
+    category: notification
+
+  var-status:
+    source_text: 'Your order {order_id} has been shipped to {address}.'
+    translations:
+      ro: ''
+      es: ''
+    category: system
+    context: 'Order status update'
+
+  # Double brace variables (template placeholders)
+  template-welcome:
+    source_text: 'Welcome to {{app_name}}! Your trial expires in {{days_remaining}} days.'
+    translations:
+      ro: ''
+      es: ''
+    category: system
+
+  template-email:
+    source_text: 'Dear {{customer_name}}, thank you for your purchase of {{product_name}}.'
+    translations:
+      ro: ''
+      es: ''
+    category: email
+    context: 'Purchase confirmation email'
+
+  # Mixed content
+  var-mixed:
+    source_text: 'Hi {name}, you earned {{points}} points today! Keep up the great work.'
+    translations:
+      ro: ''
+      es: ''
+    category: gamification
+
+  # Complex message
+  var-complex:
+    source_text: 'Project {project_name} deadline is {deadline}. {{team_size}} members are working on {{task_count}} tasks.'
+    translations:
+      ro: ''
+      es: ''
+    category: project_management
+    context: 'Project dashboard summary'
+
+  # Error messages
+  var-error:
+    source_text: 'Error: Failed to load {resource_type} from {location}. Please check {{error_details}} for more information.'
+    translations:
+      ro: ''
+      es: ''
+    category: error
+    context: 'Resource loading error message'
+
+  # User interface
+  var-ui-status:
+    source_text: 'Logged in as {username}. Account type: {{account_type}}.'
+    translations:
+      ro: ''
+      es: ''
+    category: ui
+    context: 'User status bar'
+
+  # Dynamic content
+  var-dynamic:
+    source_text: 'The {event_name} starts in {time_remaining}. {{attendee_count}} people have registered.'
+    translations:
+      ro: ''
+      es: ''
+    category: events
+    context: 'Event countdown message'

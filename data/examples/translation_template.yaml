@@ -1,0 +1,94 @@
+# Generic YAML Translation Template
+#
+# This is a template for creating translation files.
+# Copy this file and fill in your content.
+
+metadata:
+  source_language: en
+  target_languages:
+    - ro
+    - es
+    - fr
+  tag_format: auto  # Options: auto, html, markdown, custom_braces, custom_brackets
+  created_at: '2026-01-05T19:00:00'
+  updated_at: '2026-01-05T19:00:00'
+
+blocks:
+  # UI Elements
+  ui-welcome:
+    source_text: 'Welcome to <b>MyApp</b>!'
+    translations:
+      ro: ''  # Will be filled by translator
+      es: ''
+      fr: ''
+    category: ui
+    context: 'Main welcome screen heading'
+
+  ui-button-start:
+    source_text: 'Click <a href="/start">here</a> to begin'
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: ui
+    context: 'Start button in main menu'
+
+  # Dialogue Examples
+  dialogue-intro-1:
+    source_text: 'Hello! How are you feeling today?'
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: dialogue
+    speaker: Sarah
+    context: 'First greeting from main character'
+
+  dialogue-intro-2:
+    source_text: "I'm doing great, thanks for asking!"
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: dialogue
+    speaker: Player
+    context: 'Player response to greeting'
+
+  # Menu Items
+  menu-option-1:
+    source_text: '[Tell the truth]'
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: menu
+    context: 'Decision point menu option'
+
+  menu-option-2:
+    source_text: '[Stay silent]'
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: menu
+    context: 'Alternative menu option'
+
+  # Narrative Text
+  narration-1:
+    source_text: 'The sun was setting over the **distant mountains**, painting the sky in shades of orange and purple.'
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: narration
+    context: 'Scene description at chapter start'
+
+  # Variables and Placeholders
+  message-greeting:
+    source_text: 'Welcome back, {player_name}! You have {unread_count} new messages.'
+    translations:
+      ro: ''
+      es: ''
+      fr: ''
+    category: system
+    context: 'User dashboard greeting message'
