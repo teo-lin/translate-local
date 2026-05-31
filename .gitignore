@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# Test outputs
+test_output/
+
+# Games - ignore all except Example
+games/*
+!games/Example/**
+/games/Example/game/tl/romanian/Cell01_Academy.rpy.backup
+/games/Example/game/tl/romanian/Cell01_Academy.corrections.txt
+
+# Generated translation files
+*.parsed.yaml
+*.tags.yaml
+characters.yaml
+
+# Ren'Py - ignore all except specific files, unRen, and rpaExtract.exe
+renpy/
+!renpy/
+renpy/*
+!renpy/RENPY.md
+!renpy/tools_config.yaml
+!renpy/rpaExtract.exe
+!renpy/unRen/
+!renpy/unRen/**
+
+# Models - config only (actual model files are in HuggingFace cache)
+models/*
+!models/*.md
+!models/models_config.yaml
+!models/current_config.yaml
+!models/compute_profiles.yaml
+# models/compute_profile.yaml is machine-specific — gitignored via models/*
+
+# Data - ignore directory but track specific files
+data/**/*uncensored*
+
+# Root
+/TROUBLESHOOTING.md
+/STATUS.md
+/PLAN.md
+models/current_config.yaml
+models/README-MODELS.md
