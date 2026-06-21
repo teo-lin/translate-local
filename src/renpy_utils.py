@@ -48,58 +48,6 @@ def show_progress(current, total, start_time, prefix=""):
               flush=True)
 
 
-def detect_language_from_path(path: Path) -> Tuple[str, str]:
-    """
-    Auto-detect target language from path (e.g., "game/tl/romanian" → ("Romanian", "ro"))
-
-    Returns:
-        Tuple of (language_name, language_code)
-    """
-    path_str = str(path).lower().replace('\\', '/')
-
-    # Language mappings (path name → (proper name, code))
-    lang_map = {
-        'romanian': ('Romanian', 'ro'),
-        'spanish': ('Spanish', 'es'),
-        'french': ('French', 'fr'),
-        'german': ('German', 'de'),
-        'italian': ('Italian', 'it'),
-        'portuguese': ('Portuguese', 'pt'),
-        'russian': ('Russian', 'ru'),
-        'turkish': ('Turkish', 'tr'),
-        'czech': ('Czech', 'cs'),
-        'polish': ('Polish', 'pl'),
-        'ukrainian': ('Ukrainian', 'uk'),
-        'bulgarian': ('Bulgarian', 'bg'),
-        'chinese': ('Chinese', 'zh'),
-        'japanese': ('Japanese', 'ja'),
-        'korean': ('Korean', 'ko'),
-        'vietnamese': ('Vietnamese', 'vi'),
-        'thai': ('Thai', 'th'),
-        'indonesian': ('Indonesian', 'id'),
-        'arabic': ('Arabic', 'ar'),
-        'hebrew': ('Hebrew', 'he'),
-        'persian': ('Persian', 'fa'),
-        'hindi': ('Hindi', 'hi'),
-        'bengali': ('Bengali', 'bn'),
-        'dutch': ('Dutch', 'nl'),
-        'swedish': ('Swedish', 'sv'),
-        'norwegian': ('Norwegian', 'no'),
-        'danish': ('Danish', 'da'),
-        'finnish': ('Finnish', 'fi'),
-        'greek': ('Greek', 'el'),
-        'hungarian': ('Hungarian', 'hu'),
-    }
-
-    # Check each language in path
-    for path_lang, (proper_lang, code) in lang_map.items():
-        if f'/{path_lang}/' in path_str or path_str.endswith(f'/{path_lang}') or path_str.endswith(f'{path_lang}'):
-            return proper_lang, code
-
-    # Default to Romanian if not detected
-    return 'Romanian', 'ro'
-
-
 class RenpyTagExtractor:
     """Extract and restore Ren'Py tags and variables"""
 
