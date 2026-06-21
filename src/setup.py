@@ -21,7 +21,6 @@ except ImportError as e:
 # Constants
 ROOT_DIR = Path(__file__).parent.parent
 MODELS_CONFIG_PATH = ROOT_DIR / "models" / "models_config.yaml"
-TOOLS_CONFIG_PATH = ROOT_DIR / "renpy" / "tools_config.yaml"
 CURRENT_CONFIG_PATH = ROOT_DIR / "models" / "current_config.yaml"
 VENV_PATH = ROOT_DIR / "venv"
 REQUIREMENTS_PATH = ROOT_DIR / "requirements.txt"
@@ -35,7 +34,6 @@ class ProjectSetup:
     def __init__(self, args):
         self.args = args
         self.models_config = {}
-        self.tools_config = {}
         self.selected_languages = []
         self.selected_models = []
         self.all_languages = []
@@ -53,7 +51,7 @@ class ProjectSetup:
         self._load_configs()
         print()
         print("=" * 70)
-        print("Detecting Hardware Tier [1/8]")
+        print("Detecting Hardware Tier [1/7]")
         print("=" * 70)
         print()
         self.tier = self._detect_hardware_tier()
@@ -71,7 +69,7 @@ class ProjectSetup:
             # Skip model flow: load from config or use all languages
             print()
             print("=" * 70)
-            print("Skipping Model Selection [3/8]")
+            print("Skipping Model Selection [3/7]")
             print("=" * 70)
             print()
             if self.args.languages:
@@ -88,7 +86,7 @@ class ProjectSetup:
         else:
             print()
             print("=" * 70)
-            print("Skipping Python Setup [4/8]")
+            print("Skipping Python Setup [4/7]")
             print("=" * 70)
             print()
 
@@ -97,16 +95,7 @@ class ProjectSetup:
         else:
             print()
             print("=" * 70)
-            print("Skipping Model Download [5/8]")
-            print("=" * 70)
-            print()
-
-        if not self.args.skip_tools:
-            self._download_tools()
-        else:
-            print()
-            print("=" * 70)
-            print("Skipping Tools Download [6/8]")
+            print("Skipping Model Download [5/7]")
             print("=" * 70)
             print()
 
@@ -125,7 +114,7 @@ class ProjectSetup:
 
     def _print_header(self):
         print("=" * 70)
-        print("  Ren'Py Translation System - Python Setup Script")
+        print("  Local Translation System - Python Setup Script")
         print("=" * 70)
         print()
 
@@ -133,8 +122,6 @@ class ProjectSetup:
         try:
             with open(MODELS_CONFIG_PATH, "r", encoding="utf-8") as f:
                 self.models_config = yaml.safe_load(f)
-            with open(TOOLS_CONFIG_PATH, "r", encoding="utf-8") as f:
-                self.tools_config = yaml.safe_load(f)
         except FileNotFoundError as e:
             print(f"Error: Configuration file not found at {e.filename}")
             sys.exit(1)
@@ -167,7 +154,7 @@ class ProjectSetup:
         if self.args.languages:
             print()
             print("=" * 70)
-            print("Select Languages to Work With [2/8]")
+            print("Select Languages to Work With [2/7]")
             print("=" * 70)
             print()
             if self.args.languages.lower() == 'all':
@@ -184,7 +171,7 @@ class ProjectSetup:
             return f"[{num:2d}] {lang['name']}"
 
         self.selected_languages = select_languages_single_row(
-            "Select Languages to Work With", self.all_languages, lang_formatter_func, "language", step_info="[2/8]"
+            "Select Languages to Work With", self.all_languages, lang_formatter_func, "language", step_info="[2/7]"
         )
 
     def _select_models(self):
@@ -212,7 +199,7 @@ class ProjectSetup:
         if self.args.models:
             print()
             print("=" * 70)
-            print("Select Translation Models to Install [3/8]")
+            print("Select Translation Models to Install [3/7]")
             print("=" * 70)
             print()
             if self.args.models.lower() == 'all':
@@ -236,13 +223,13 @@ class ProjectSetup:
             if files:
                 quant = self._quant_for_tier(model, self.tier)
                 size = model.get(f'size_{quant}') or '?'
-                quant_label = f"{quant} Â· {size}"
+                quant_label = f"{quant} · {size}"
             else:
                 filename = model.get('file') or ''
                 m = re.search(r'Q\d+_K_[MS]', filename)
                 quant = m.group(0) if m else None
                 size = model.get('size') or '?'
-                quant_label = f"{quant} Â· {size}" if quant else size
+                quant_label = f"{quant} · {size}" if quant else size
             return (
                 f"  [{num:2d}] {model['name']}  [{quant_label}]\n"
                 f"      - Supports {supported_count}/{len(self.selected_languages)} of your languages\n"
@@ -250,7 +237,7 @@ class ProjectSetup:
             )
 
         self.selected_models = select_multiple_items(
-            "Select Translation Models to Install", self.available_models, model_formatter_func, "model", step_info="[3/8]"
+            "Select Translation Models to Install", self.available_models, model_formatter_func, "model", step_info="[3/7]"
         )
 
     def _save_config(self):
@@ -302,7 +289,7 @@ class ProjectSetup:
     def _setup_python_env(self):
         print()
         print("=" * 70)
-        print("Setting up Python Environment [4/8]")
+        print("Setting up Python Environment [4/7]")
         print("=" * 70)
         print()
 
@@ -588,7 +575,7 @@ class ProjectSetup:
         from huggingface_hub import hf_hub_download
         print()
         print("=" * 70)
-        print("Downloading Selected Translation Models [5/8]")
+        print("Downloading Selected Translation Models [5/7]")
         print("=" * 70)
         print()
         for model in self.selected_models:
@@ -619,51 +606,10 @@ class ProjectSetup:
                     print(f"      Quant: {filename} (tier={tier})")
                 hf_hub_download(repo_id=repo_id, filename=filename)
 
-    def _download_tools(self):
-        print()
-        print("=" * 70)
-        print("Downloading External Tools [6/8]")
-        print("=" * 70)
-        print()
-        renpy_config = self.tools_config['tools']['renpy']
-        renpy_path = ROOT_DIR / renpy_config['destination']
-
-        if renpy_path.exists():
-            print("  Ren'Py SDK already exists.")
-        else:
-            print(f"  Downloading Ren'Py SDK {renpy_config['version']}...")
-            temp_zip = ROOT_DIR / "renpy.zip"
-            try:
-                import urllib.request
-                with urllib.request.urlopen(renpy_config['url']) as response, open(temp_zip, 'wb') as out_file:
-                    shutil.copyfileobj(response, out_file)
-                with zipfile.ZipFile(temp_zip, 'r') as zf: zf.extractall(ROOT_DIR)
-                extracted = next(ROOT_DIR.glob('renpy-*/'), None)
-                if extracted: extracted.rename(renpy_path)
-            except Exception as e:
-                print(f"  WARNING: Could not download Ren'Py SDK: {e}")
-            finally:
-                if temp_zip.exists(): temp_zip.unlink()
-
-        # Check for rpaExtract.exe
-        rpa_extract_path = ROOT_DIR / "renpy" / "rpaExtract.exe"
-        if rpa_extract_path.exists():
-            print("  rpaExtract.exe already in repository")
-        else:
-            print("  WARNING: rpaExtract.exe not found at renpy/rpaExtract.exe")
-            print("  rpaExtract is optional and only needed for extracting RPA archives")
-
-        # Check for UnRen
-        unren_path = ROOT_DIR / "renpy" / "unRen"
-        if unren_path.exists():
-            print("  UnRen already in repository")
-        else:
-            print("  WARNING: UnRen folder not found at renpy/unRen")
-
     def _verify_installation(self):
         print()
         print("=" * 70)
-        print("Verifying Installation [7/8]")
+        print("Verifying Installation [6/7]")
         print("=" * 70)
         print()
 
@@ -764,7 +710,7 @@ class ProjectSetup:
     def _detect_hardware(self):
         print()
         print("=" * 70)
-        print("Detecting Hardware & Writing Compute Profile [8/8]")
+        print("Detecting Hardware & Writing Compute Profile [7/7]")
         print("=" * 70)
         print()
 
@@ -791,18 +737,15 @@ class ProjectSetup:
             print("  SETUP COMPLETE!")
             print("\n  You're all set! Next steps:")
             print()
-            print("  1. Copy your Ren'Py game to the games/ folder")
-            print()
-            print("  2. Translate your game using the interactive launcher:")
+            print("  1. Translate files using the interactive launcher:")
             print("     ./3-translate.ps1")
             print()
-            print("  3. (Optional) Correct grammar with:")
+            print("  2. (Optional) Correct grammar with:")
             print("     ./4-correct.ps1")
             print()
             print(f"  The interactive scripts will use your configuration:")
             print(f"    - Languages: {len(self.selected_languages)} configured during setup")
             print(f"    - Models: {len(self.selected_models)} installed during setup")
-            print(f"    - Games: auto-scanned from games/ folder")
             print()
             print("  For advanced usage, see README.md")
         else:
@@ -811,9 +754,8 @@ class ProjectSetup:
         print("=" * 70)
 
 def main():
-    parser = argparse.ArgumentParser(description="Ren'Py Translation System - Setup Script")
+    parser = argparse.ArgumentParser(description="Local Translation System - Setup Script")
     parser.add_argument("--skip-python", action="store_true")
-    parser.add_argument("--skip-tools", action="store_true")
     parser.add_argument("--skip-model", action="store_true")
     parser.add_argument("--languages", type=str, default="")
     parser.add_argument("--models", type=str, default="")
